@@ -9,7 +9,9 @@ const addNote = function(title,body){
 	notes.push({
 		title:title,
 		body:body
-	})
+	})else{
+		console.log("Already Exists");
+	}
 	savenote(notes)
 }
 const savenote = function(notes){
