@@ -20,6 +20,19 @@ yargs.command({
 	}
 }).argv;
 
+yargs.command({
+	command : 'remove',
+	describe : 'remove',
+	builder :{
+		title : {
+			demandOption:true,
+			type: "String"
+		}
+	},
+	handler : function(argv){
+		notes.remove(argv.title);
+	}
+}).argv;
 
 
 
