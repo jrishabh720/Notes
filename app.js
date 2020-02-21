@@ -1,6 +1,7 @@
 const fs = require('fs');
 const yargs = require('yargs');
 const notes = require('./notes.js');
+const chalk = require('chalk');
 
 yargs.command({
 	command: 'add',
@@ -18,7 +19,7 @@ yargs.command({
 	handler(argv){
 		notes.addNote(argv.title,argv.body);
 	}
-}).argv;
+})
 
 yargs.command({
 	command : 'remove',
@@ -32,7 +33,40 @@ yargs.command({
 	handler(argv){
 		notes.remove(argv.title);
 	}
-}).argv;
+})
+
+yargs.command({
+	command: 'list',
+	describe : 'list',
+	handler(argv){
+		const toPrint = notes.loadNote();
+		toPrint.forEach((note)=>{
+			console.log(note.title);			
+		})
+	}
+})
+
+yargs.command({
+	command: 'read',
+	describe : 'read',
+	builder: {
+		f : {
+			demandOption:true,
+			type: "String"
+		}
+	},
+	handler(argv){
+		const toPrint = notes.loadNote();
+	try{
+		const x = toPrint.find((note)=>(argv.f == note.title));
+		console.log(x.body);
+	}catch(error){
+		console.log(chalk.red.inverse('Not Found'));
+	}
+	}
+})
+
+yargs.parse();
 
 
 
